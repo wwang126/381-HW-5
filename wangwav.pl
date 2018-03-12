@@ -1,3 +1,6 @@
+-- Sean Cramsey -- cramseys
+
+
 % Here are a bunch of facts describing the Simpson's family tree.
 % Don't change them!
 
@@ -51,18 +54,25 @@ parent(selma,ling).
 
 % 1. Define a predicate `child/2` that inverts the parent relationship.
 
+child(X,Y) :- parent(Y,X).
 
 % 2. Define two predicates `isMother/1` and `isFather/1`.
 
+isMother(X) :- parent(X,_),female(X).
+isFather(X) :- parent(X,_),male(X).
 
 % 3. Define a predicate `grandparent/2`.
 
+grandparent(X,Y) :- parent(Z,Y),parent(X,Z).
 
 % 4. Define a predicate `sibling/2`. Siblings share at least one parent.
 
+sibling(X,Y) :- parent(Z,X),parent(Z,Y).
 
 % 5. Define two predicates `brother/2` and `sister/2`.
 
+brother(X,Y) :- sibling(X,Y),male(X), not(X==Y).
+sister(X,Y) :- sibling(X,Y),female(X) not(X==Y).
 
 % 6. Define a predicate `siblingInLaw/2`. A sibling-in-law is either married to
 %    a sibling or the sibling of a spouse.
@@ -92,5 +102,3 @@ parent(selma,ling).
 
 % 2. Define the predicate `prog/3`, which describes the effect of executing a
 %    program on the stack.
-
-
