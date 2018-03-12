@@ -1,4 +1,5 @@
--- Sean Cramsey -- cramseys
+% Wavelet Wang -- wangwav
+% Sean Cramsey -- cramseys
 
 
 % Here are a bunch of facts describing the Simpson's family tree.
@@ -72,11 +73,13 @@ sibling(X,Y) :- parent(Z,X),parent(Z,Y).
 % 5. Define two predicates `brother/2` and `sister/2`.
 
 brother(X,Y) :- sibling(X,Y),male(X), not(X==Y).
-sister(X,Y) :- sibling(X,Y),female(X) not(X==Y).
+sister(X,Y) :- sibling(X,Y),female(X), not(X==Y).
 
 % 6. Define a predicate `siblingInLaw/2`. A sibling-in-law is either married to
 %    a sibling or the sibling of a spouse.
-
+siblingInLaw(X,Y) :- married(X,Z),sibling(Y,Z).
+siblingInLaw(X,Y) :- sibling(X,Z),married(Y,Z).
+siblingInLaw(Y,X) :- siblingInLaw(X,Y).
 
 % 7. Define two predicates `aunt/2` and `uncle/2`. Your definitions of these
 %    predicates should include aunts and uncles by marriage.
