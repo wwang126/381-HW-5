@@ -111,6 +111,9 @@ ancestor(X,Y) :- parent(X,Z), ancestor(Z,Y).
 % 1. Define the predicate `cmd/3`, which describes the effect of executing a
 %    command on the stack.
 
+cmd(C, S1, S2) :- S2 = [C | S1].
+cmd(add, [Stack1, Stack2 | S1], S2) :- Sum is (Stack1 + Stack2), S2 = [Sum | S1].
+cmd(lte, [Stack1, Stack2 | S1], S2) :- Comp = (Stack1 =< Stack2 -> Res=t;Res=f), call(Comp), S2 = [Res | S1].
 
 % 2. Define the predicate `prog/3`, which describes the effect of executing a
 %    program on the stack.
