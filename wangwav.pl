@@ -1,5 +1,6 @@
 % Wavelet Wang -- wangwav
 % Sean Cramsey -- cramseys
+% David Okubo -- okubod
 
 
 % Here are a bunch of facts describing the Simpson's family tree.
@@ -111,9 +112,14 @@ ancestor(X,Y) :- parent(X,Z), ancestor(Z,Y).
 % 1. Define the predicate `cmd/3`, which describes the effect of executing a
 %    command on the stack.
 
-cmd(C, S1, S2) :- S2 = [C | S1].
 cmd(add, [Stack1, Stack2 | S1], S2) :- Sum is (Stack1 + Stack2), S2 = [Sum | S1].
 cmd(lte, [Stack1, Stack2 | S1], S2) :- Comp = (Stack1 =< Stack2 -> Res=t;Res=f), call(Comp), S2 = [Res | S1].
+cmd(if(P1, _), [t | Tail], S2) :- prog(P1, Tail, S2).
+cmd(if(_, P2), [f | Tail], S2) :- prog(P2, Tail, S2).
+cmd(C, S1, S2) :- S2 = [C | S1].
 
 % 2. Define the predicate `prog/3`, which describes the effect of executing a
 %    program on the stack.
+
+prog([], S1, S2) :- S2 = S1.
+prog([Phead|Ptail], S1, S2) :- cmd(Phead, S1, S3), prog(Ptail, S3, S2).
